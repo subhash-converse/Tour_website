@@ -5,8 +5,8 @@ import {
   faBars,
   faBriefcase,
   faMagnifyingGlass,
-  faUser,
   faXmark,
+  faUser
 } from "@fortawesome/free-solid-svg-icons";
 import { Avatar } from "@mui/material";
 import "../App.css";
@@ -18,11 +18,13 @@ import img from "../Components/images/1.jpg";
 import Routing from "./routing";
 
 const Sidenavbar = () => {
+  const [isListVisible, setIsListVisible] = useState(false);
   const [userListVisible, setUserListVisible] = useState(false);
   const [CareerListVisible, setCareerListVisible] = useState(true);
   const [userButtonColor, setUserButtonColor] = useState("black");
   const [careerButtonColor, setCareerButtonColor] = useState("black");
   const [navVisible, setNavVisible] = useState(true);
+  const [navMenuvisible, setNavMenuvisible] = useState(false);
 
   const userToggle = () => {
     setUserListVisible(!userListVisible);
@@ -40,6 +42,10 @@ const Sidenavbar = () => {
     console.log(navVisible);
   };
 
+  const MenuNavication = () => {
+    setNavMenuvisible(!navMenuvisible);
+  };
+
   const Blink = () => {
     return <div className="notification-circle"></div>;
   };
@@ -48,8 +54,9 @@ const Sidenavbar = () => {
     <div className="h-screen ">
       {/* logo,search */}
       <div className="w-full sticky top-0 flex border-b-[1px] border-gray-200 h-[60px] ">
+        {/* logo */}
         {!navVisible ? (
-          <div className="menu-bar bg-white z-10 border-r-[1px] border-gray-200 pt-1 flex items-center min-w-[240px] px-[25px] ">
+          <div className="menu-bar  bg-white z-10 border-r-[1px] border-gray-200 pt-1 flex items-center min-w-[240px] px-[25px] ">
             <a href="" className="w-full">
               <img
                 src={logo}
@@ -71,6 +78,99 @@ const Sidenavbar = () => {
                 className="text-[rgb(121,135,161)] text-lg "
                 onClick={navication}
               />
+            </div>
+          </div>
+        )}
+
+        {!navMenuvisible ? (
+          <div className="  lg:hidden min-w-[72px] text-center z-10 border-r-[1px] bg-white border-gray-200 p-5">
+            <FontAwesomeIcon
+              icon={faBars}
+              className="text-[#696767] text-lg"
+              onClick={MenuNavication}
+            />
+          </div>
+        ) : (
+          <div className="  bg-white  z-10  border-r-[1px] border-gray-200  items-center flex-col  min-w-[240px] h-screen   justify-between lg:hidden">
+            <div className="flex h-[65px] justify-between items-center border-[1px] border-b-gray-200 px-6 z-10">
+              <img
+                src={logo}
+                alt="logo"
+                className=" h-[30px] w-[140px]  lg:inline"
+              />
+              <FontAwesomeIcon
+                icon={faXmark}
+                className="text-[#5f5d5d] text-[20px]"
+                onClick={MenuNavication}
+              />
+            </div>
+            <div className="mt-4 border-b-2 border-dashed border-gray-300 px-2 bg-white">
+              <button
+                className="flex items-centerp  py-[10px] w-full  nav-button"
+                style={{ color: careerButtonColor }}
+                onClick={userToggle}
+              >
+                <span className="flex gap-3 items-center w-full">
+                  <span className="min-w-[25px] text-center">
+                    <FontAwesomeIcon
+                      icon={faUser}
+                      className="text-[rgb(121,135,161)] flex justify-self-center text-xl"
+                    />
+                  </span>
+                  <div className="w-full flex justify-between">
+                    <span style={{ fontSize: "14px", fontWeight: "500" }}>
+                      User Management
+                    </span>
+                    <span>
+                      {isListVisible ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+                    </span>
+                  </div>
+                </span>
+              </button>
+
+              {isListVisible && (
+                <ul className="bullet-list">
+                  <li>All User Lists</li>
+                  <li>Add User</li>
+                </ul>
+              )}
+            </div>
+            <div>
+              {/* candidate */}
+              <div className="border-b-2 border-dashed border-gray-300 pl-2">
+                <button
+                  className="nav-button flex items-center py-[10px] justify-betweenc w-full nav-button"
+                  onClick={careerToggle}
+                  style={{ color: careerButtonColor }}
+                >
+                  <span className="flex gap-3 items-center w-full">
+                    <span>
+                      <FontAwesomeIcon
+                        icon={faBriefcase}
+                        className="min-w-[25px] text-center "
+                      />
+                    </span>
+                    <div className="w-full flex justify-between ">
+                      <span>Career Management</span>
+                      <span>
+                        {CareerListVisible ? (
+                          <ExpandLessIcon />
+                        ) : (
+                          <ExpandMoreIcon />
+                        )}
+                      </span>
+                    </div>
+                  </span>
+                </button>
+
+                {CareerListVisible && (
+                  <ul className="bullet-list">
+                    <li>All Job vacancies</li>
+                    <li>Add Job Vacancy</li>
+                    <li>All Candidate List</li>
+                  </ul>
+                )}
+              </div>
             </div>
           </div>
         )}
@@ -139,6 +239,7 @@ const Sidenavbar = () => {
                 </ul>
               )}
             </div>
+
             {/* candidate */}
             <div className=" px-[25px] border-b-[1px] border-dashed border-gray-200">
               <button
